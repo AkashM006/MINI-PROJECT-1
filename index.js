@@ -1,28 +1,23 @@
 const express = require("express");
 const app = express();
+const passport = require("passport");
+const cors = require("cors");
+const routes = require("./routes/app");
+
 require("dotenv").config();
-const Sequelize = require("sequelize");
+require("./config/db");
+require("./config/passport")(passport);
 
-const db = new Sequelize({
-  dialect: "mssql",
-  dialectOptions: {
-    encrypt: true,
-  },
-  host: "localhost",
-  // port: "64207",
-  server: "AKASH\\SQLEXPRESS",
-  username: "sa",
-  password: "Abcd@1234",
-  database: "sample",
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(passport.initialize());
 
-db.authenticate()
-  .then(() => console.log("Connection Established"))
-  .catch((err) => console.log(err));
+app.use(routes);
 
-app.get("/", (req, res) => {
-  return res.send("Hello");
-});
+// app.get("/", (req, res) => {
+//   return res.send("Hello");
+// });
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Server is running on PORT ${process.env.PORT || 3000}`);
