@@ -1,5 +1,5 @@
-const { isMatch, issueToken } = require("../../config/utils");
-const User = require("../../models/user");
+const { isMatch, issueToken } = require("../config/utils");
+const User = require("../models/user");
 const app = require("express").Router();
 
 app.post("/", async (req, res) => {

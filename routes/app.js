@@ -1,10 +1,12 @@
 const app = require("express").Router();
-const register = require("./secondary/register");
-const login = require("./secondary/login");
+const register = require("./register");
+const login = require("./login");
+const call = require("./call");
 const passport = require("passport");
 
 app.use("/register", register);
 app.use("/login", login);
+app.use("/call", call);
 
 app.get(
   "/",

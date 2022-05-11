@@ -7,8 +7,6 @@ const User = require("../models/user");
 
 const pathToKey = path.join(__dirname, "..", "id_rsa_pub.pem");
 const PUB_KEY = fs.readFileSync(pathToKey, "utf8");
-
-console.log("Passport Strategy file");
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: PUB_KEY,
@@ -18,7 +16,6 @@ const options = {
 module.exports = (passport) => {
   passport.use(
     new JwtStrategy(options, async (payload, done) => {
-      console.log("JWT Payload:", payload);
       try {
         let user = await User.findOne({ where: { id: payload.sub } });
         if (user) return done(null, user);
@@ -30,19 +27,3 @@ module.exports = (passport) => {
     })
   );
 };
-// passport.use(
-//   new LocalStrategy(
-//     { usernameField: "email", passwordField: "password" },
-//     async (username, password, done) => {
-//       authenticate the user
-//     }
-//   )
-// );
-
-// passport.serializeUser((user, done) => {
-//   return the uid
-// });
-
-// passport.deserializeUser((id, done) => {
-//   return the user object
-// });

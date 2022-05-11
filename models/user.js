@@ -42,8 +42,25 @@ const User = db.define("tbl_users", {
       },
     },
   },
+  type: {
+    type: Sequelize.INTEGER,
+    allowNull: {
+      args: false,
+      msg: "Type is required",
+    },
+    validate: {
+      max: {
+        args: 3,
+        msg: "Type value must be less than or equal to 3",
+      },
+      min: {
+        args: 1,
+        msg: "Type value must be greater than or equal to 1",
+      },
+    },
+  },
 });
 
-User.sync();
+(async () => await User.sync({ alter: "force" }))();
 
 module.exports = User;

@@ -15,9 +15,9 @@ app.use(passport.initialize());
 
 app.use(routes);
 
-// app.get("/", (req, res) => {
-//   return res.send("Hello");
-// });
+app.get("/", (req, res) => {
+  res.send("Hello, this is the mini project API");
+});
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Server is running on PORT ${process.env.PORT || 3000}`);
