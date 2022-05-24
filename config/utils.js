@@ -17,9 +17,7 @@ const isMatch = (password, hash) => {
 
 const issueToken = (user) => {
   const id = user.id;
-  console.log("User id:", user.id);
-
-  const expiresIn = "1d";
+  const expiresIn = "2h";
 
   const payload = {
     sub: id,

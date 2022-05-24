@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db");
 
-const User = db.define("tbl_users", {
+const User = db.define("user", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -9,6 +9,13 @@ const User = db.define("tbl_users", {
     allowNull: {
       args: false,
       msg: "Id is required",
+    },
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: {
+      args: false,
+      msg: "Email is required",
     },
   },
   email: {
@@ -60,7 +67,5 @@ const User = db.define("tbl_users", {
     },
   },
 });
-
-(async () => await User.sync({ alter: "force" }))();
 
 module.exports = User;

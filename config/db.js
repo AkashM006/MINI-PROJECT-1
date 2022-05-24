@@ -1,4 +1,7 @@
 const Sequelize = require("sequelize");
+// const associate = require('../models/assocations')
+// const User = require("../models/user");
+// const ServiceCall = require("../models/serviceCall");
 
 const db = new Sequelize({
   dialect: "mssql",
@@ -13,8 +16,27 @@ const db = new Sequelize({
   database: "sample",
 });
 
-db.authenticate()
-  .then(() => console.log("Connection Established"))
-  .catch((err) => console.log(err));
+// db.authenticate()
+//   .then(async () => {
+//     await db.sync({ force: true });
+//     // require("../models/assocations")(User, ServiceCall);
+//     // User.belongsTo(ServiceCall, {
+//     //   onDelete: "CASCADE",
+//     //   onUpdate: "CASCADE",
+//     //   foreignKey: {
+//     //     allowNull: true,
+//     //   },
+//     // });
+
+//     // ServiceCall.hasMany(User, {
+//     //   onDelete: "CASCADE",
+//     //   onUpdate: "CASCADE",
+//     //   foreignKey: {
+//     //     allowNull: true,
+//     //   },
+//     // });
+//     console.log("Connection established");
+//   })
+//   .catch((err) => console.log(err));
 
 module.exports = db;

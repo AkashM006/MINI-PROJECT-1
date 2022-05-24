@@ -3,13 +3,14 @@ const { genHash, issueToken } = require("../config/utils");
 const User = require("../models/user");
 
 app.post("/", async (req, res) => {
-  const email = req.body.email;
-  let password = req.body.password;
-  const type = +req.body.type;
-
+  // this route can be use to create only customers
+  const email = req.body.data.email;
+  let password = req.body.data.password;
+  const type = 1;
+  const name = req.body.data.name;
   try {
-    let user = await User.findOne({ where: { email } });
-    if (user) {
+    let userObject = await User.findOne({ where: { email } });
+    if (userObject) {
       res.status(401);
       return res.json({
         msg: "This email id already exists, enter another one",
@@ -30,19 +31,24 @@ app.post("/", async (req, res) => {
     console.log(err);
   }
   try {
-    let user = await User.create({ email, password, type });
-    const tokenObject = issueToken(user);
+    let userObject = await User.create({ email, password, type, name });
+    const tokenObject = issueToken(userObject);
 
     return res.status(200).json({
       msg: "Created user successfully",
       token: tokenObject.token,
       success: true,
+      user: {
+        email: userObject.email,
+        type: userObject.type,
+        name: userObject.name,
+      },
     });
   } catch (err) {
     console.log(err);
 
     return res.json({
-      msg: err.errors[0].message || "Something went wrong please try again",
+      msg: err.errors[0].message ?? "Something went wrong please try again",
       success: false,
     });
   }
