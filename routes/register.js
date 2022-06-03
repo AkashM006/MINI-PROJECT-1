@@ -4,10 +4,9 @@ const User = require("../models/user");
 
 app.post("/", async (req, res) => {
   // this route can be use to create only customers
-  const email = req.body.data.email;
-  let password = req.body.data.password;
+
   const type = 1;
-  const name = req.body.data.name;
+  let { email, name, password } = req.body;
   try {
     let userObject = await User.findOne({ where: { email } });
     if (userObject) {

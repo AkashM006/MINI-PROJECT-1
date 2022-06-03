@@ -3,8 +3,7 @@ const User = require("../models/user");
 const app = require("express").Router();
 
 app.post("/", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
   try {
     let user = await User.findOne({ where: { email: email } });
     if (user) {
