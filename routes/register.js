@@ -6,7 +6,7 @@ app.post("/", async (req, res) => {
   // this route can be use to create only customers
 
   const type = 1;
-  let { email, name, password } = req.body;
+  let { email, name, password } = req.body.data;
   try {
     let userObject = await User.findOne({ where: { email } });
     if (userObject) {
