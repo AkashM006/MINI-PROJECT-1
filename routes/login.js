@@ -3,7 +3,6 @@ const User = require("../models/user");
 const app = require("express").Router();
 
 app.post("/", async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body.data;
   try {
     let user = await User.findOne({ where: { email: email } });

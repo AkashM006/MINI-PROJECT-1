@@ -3,8 +3,6 @@ const { genHash, issueToken } = require("../config/utils");
 const User = require("../models/user");
 
 app.post("/", async (req, res) => {
-  // this route can be use to create only customers
-
   const type = 1;
   let { email, name, password } = req.body.data;
   try {
