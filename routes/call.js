@@ -134,8 +134,8 @@ app.put(
   "/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    // this route is for assigning a service call to an engineer
-    const { engineerEmail, callId } = req.body;
+    // this route is for updating the service call
+    const { engineerEmail, callId, products, remarks, complaint } = req.body;
     const user = await req.user;
     if (user.type !== 3) {
       return res.status(401).json({
@@ -148,6 +148,9 @@ app.put(
       const engineer = await User.findOne({ where: { email: engineerEmail } });
       await call.update({
         engineerId: engineer.id,
+        products,
+        remarks,
+        complaint,
       });
       res.status(200).json({
         msg: "Service call assigned",
@@ -158,6 +161,30 @@ app.put(
       res.status(400).json({
         success: false,
         msg: "Something went wrong, please contact the admin",
+      });
+    }
+  }
+);
+
+app.delete(
+  "/:callId",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const id = req.params.callId;
+
+    try {
+      await ServiceCall.destroy({
+        where: { id: id },
+      });
+      return res.json({
+        success: true,
+        msg: "Deleted the service call",
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({
+        success: false,
+        msg: "Something went wrong!",
       });
     }
   }
