@@ -26,14 +26,14 @@ const ServiceCall = db.define("serviceCall", {
     allowNull: false,
     defaultValue: 0,
   },
-  // engineerId: {
-  //   type: Sequelize.INTEGER,
-  //   allowNull: true,
-  //   references: {
-  //     model: User,
-  //     key: "id",
-  //   },
-  // },
+  engineerId: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    references: {
+      model: User,
+      key: "id",
+    },
+  },
 });
 
 User.hasMany(ServiceCall, {
@@ -41,7 +41,7 @@ User.hasMany(ServiceCall, {
   onUpdate: "CASCADE",
   as: "user",
   foreignKey: {
-    // name: "userId",
+    name: "userId",
     allowNull: true,
   },
 });
@@ -51,7 +51,7 @@ ServiceCall.belongsTo(User, {
   onUpdate: "CASCADE",
   as: "user",
   foreignKey: {
-    // name: "userId",
+    name: "userId",
     allowNull: true,
   },
 });
@@ -61,7 +61,7 @@ User.hasMany(ServiceCall, {
   onUpdate: "CASCADE",
   as: "engineer",
   foreignKey: {
-    // name: "engineerId",
+    name: "engineerId",
     allowNull: true,
   },
 });
@@ -71,12 +71,12 @@ ServiceCall.belongsTo(User, {
   onUpdate: "CASCADE",
   as: "engineer",
   foreignKey: {
-    // name: "engineerId",
+    name: "engineerId",
     allowNull: true,
   },
 });
 
-(async () => await User.sync({ alter: "force" }))();
-(async () => await ServiceCall.sync({ alter: "force" }))();
+// (async () => await User.sync({ alter: "force" }))();
+// (async () => await ServiceCall.sync({ alter: "force" }))();
 
 module.exports = ServiceCall;

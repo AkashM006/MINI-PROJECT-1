@@ -3,17 +3,32 @@ const Sequelize = require("sequelize");
 // const User = require("../models/user");
 // const ServiceCall = require("../models/serviceCall");
 
+// const db = new Sequelize({
+//   dialect: "mssql",
+//   dialectOptions: {
+//     encrypt: true,
+//   },
+//   server: "localhost",
+//   // port: "64207",
+//   // server: "LAPTOP-D0NNQUFD\\admin",
+//   port: '1433',
+//   username: 'sa',
+//   password: "Abcd@1234",
+//   database: "sample",
+// });
+
 const db = new Sequelize({
-  dialect: "mssql",
-  dialectOptions: {
-    encrypt: true,
-  },
-  host: "localhost",
-  // port: "64207",
-  server: "AKASH\\SQLEXPRESS",
-  username: "sa",
-  password: "Abcd@1234",
-  database: "sample",
+  host: 'localhost',
+  username: 'root',
+  password: 'Abcd@1234',
+  database: 'sample',
+  dialect: 'mysql', 
+  pool: {
+    max: 5,
+    min: 0,
+    // acquire: 30000,
+    // idle: 10000
+}
 });
 
 // db.authenticate()
@@ -38,5 +53,8 @@ const db = new Sequelize({
 //     console.log("Connection established");
 //   })
 //   .catch((err) => console.log(err));
+
+  
+  (async () => db.sync({force: false}))();
 
 module.exports = db;

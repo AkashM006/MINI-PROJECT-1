@@ -24,7 +24,7 @@ const issueToken = (user) => {
   const payload = {
     sub: id,
     iat: Math.floor(now),
-    // exp: Math.floor(now / 1000) + 20, // this is for 20 seconds
+    // exp: Math.floor(now / 1000) + 10, // this is for 20 seconds
     exp: Math.floor(now / 1000) + 60 * 60 * 2, // this is for two hours
   };
 

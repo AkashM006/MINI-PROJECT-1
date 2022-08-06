@@ -26,10 +26,10 @@ app.get(
           attributes: [
             "id",
             "complaint",
-            "products",
-            "remarks",
+            // "products",
+            // "remarks",
             "status",
-            "createdAt",
+            // "createdAt",
           ],
         });
       } catch (err) {
@@ -49,14 +49,14 @@ app.get(
           attributes: [
             "id",
             "complaint",
-            "products",
-            "remarks",
+            // "products",
+            // "remarks",
             "status",
             "createdAt",
           ],
           order: [
             ["status", "ASC"],
-            ["createAt", "ASC"],
+            ["createdAt", "ASC"],
           ],
         });
       } catch (err) {
@@ -81,19 +81,44 @@ app.get(
         attributes: [
           "id",
           "complaint",
-          "products",
-          "remarks",
+          // "products",
+          // "remarks",
           "status",
           "createdAt",
         ],
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       calls,
     });
   }
 );
+
+app.get("/:id", passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const id = req.params.id;
+    // now get all the information about the service call
+    try {
+      const call = await ServiceCall.findOne({
+        include: [
+          { model: User, as: 'user', attributes: ['email', 'name'] },
+          { model: User, as: "engineer", attributes: ["name"] }
+        ],
+        where: { id: id }
+      });
+      console.log('Call: ' + call);
+      return res.status(200).json({
+        success: true,
+        call
+      })
+    } catch (err) {
+      return res.status(400).json({
+        success: false,
+        msg: "Something went wrong please try again!"
+      })
+    }
+  });
 
 app.post(
   "/",

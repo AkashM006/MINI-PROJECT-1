@@ -17,7 +17,7 @@ app.get(
 // todo: need to implement another route to get information about the customers and engineers for the admin
 
 app.post(
-  "/add",
+  "/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     // this route is used by admin to create users
@@ -29,7 +29,8 @@ app.post(
       });
     }
 
-    let { email, password, name, type } = req.body.data;
+    // this is allowed only to create service engineers
+    let { email, password, name } = req.body.data;
 
     try {
       const userObject = await User.findOne({ where: { email } });
@@ -47,8 +48,6 @@ app.post(
     password = await genHash(password);
     try {
       let userObject = await User.create({ email, password, type, name });
-      // const tokenObject = issueToken(userObject);
-
       return res.status(200).json({
         msg: "Created user successfully",
         success: true,
