@@ -2,12 +2,14 @@ const app = require("express").Router();
 const register = require("./register");
 const login = require("./login");
 const call = require("./call");
+const user = require('./user');
 const passport = require("passport");
 const { verifyToken } = require("../config/utils");
 
 app.use("/register", register);
 app.use("/login", login);
 app.use("/call", call);
+app.use('/user', user);
 
 app.get(
   "/",

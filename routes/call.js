@@ -160,7 +160,7 @@ app.put(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     // this route is for updating the service call
-    const { engineerEmail, callId, products, remarks, complaint } = req.body;
+    const { engineerEmail, callId, products, remarks, complaint, status } = req.body.data;
     const user = await req.user;
     if (user.type !== 3) {
       return res.status(401).json({

@@ -5,12 +5,33 @@ const ServiceCall = require("../models/serviceCall");
 const User = require("../models/user");
 
 app.get(
-  "/",
+  "/:type",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     // this route is for getting information about the user
     const user = await req.user;
-    // if(user.type !== )
+    const type = req.params.type;
+    console.log("User type: " + user.type);
+    if (user.type !== 3) {
+      return res.status(403).json({
+        msg: "You are not authorized to do this operation",
+        success: false,
+      });
+    }
+
+    try {
+      const engineers = await User.findAll({ where: { type: 2 } });
+      return res.status(200).json({
+        users: engineers,
+        success: true
+      })
+    } catch (err) {
+      console.log("Error: " + err);
+      return res.status(400).json({
+        msg: "Something went wrong please try again!",
+        success: false
+      })
+    }
   }
 );
 
@@ -46,6 +67,7 @@ app.post(
     }
 
     password = await genHash(password);
+    let type = 2;
     try {
       let userObject = await User.create({ email, password, type, name });
       return res.status(200).json({
