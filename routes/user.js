@@ -20,7 +20,7 @@ app.get(
     }
 
     try {
-      const engineers = await User.findAll({ attributes: ['id', 'name', 'email'], where: { type: type } });
+      const engineers = await User.findAll({ attributes: ['id', 'name', 'email'], where: { type: typepp } });
       return res.status(200).json({
         users: engineers,
         success: true

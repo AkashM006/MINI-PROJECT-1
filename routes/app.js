@@ -6,12 +6,14 @@ const user = require('./user');
 const passport = require("passport");
 const { verifyToken } = require("../config/utils");
 const report = require("./report")
+const profile = require('./profile');
 
 app.use("/register", register);
 app.use("/login", login);
 app.use("/call", call);
 app.use('/user', user);
 app.use("/report", report);
+app.use("/profile", profile);
 
 app.get(
   "/",
