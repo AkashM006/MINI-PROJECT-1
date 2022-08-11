@@ -5,11 +5,13 @@ const call = require("./call");
 const user = require('./user');
 const passport = require("passport");
 const { verifyToken } = require("../config/utils");
+const report = require("./report")
 
 app.use("/register", register);
 app.use("/login", login);
 app.use("/call", call);
 app.use('/user', user);
+app.use("/report", report);
 
 app.get(
   "/",

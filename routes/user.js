@@ -8,7 +8,7 @@ app.get(
   "/:type",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    // this route is for getting information about the user
+    // this route is for getting information about all the user of type /:type
     const user = await req.user;
     const type = req.params.type;
     console.log("User type: " + user.type);
@@ -20,7 +20,7 @@ app.get(
     }
 
     try {
-      const engineers = await User.findAll({ attributes: ['id', 'name', 'email'], where: { type: 2 } });
+      const engineers = await User.findAll({ attributes: ['id', 'name', 'email'], where: { type: type } });
       return res.status(200).json({
         users: engineers,
         success: true
