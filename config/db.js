@@ -22,13 +22,13 @@ const db = new Sequelize({
   username: 'root',
   password: 'Abcd@1234',
   database: 'sample',
-  dialect: 'mysql', 
+  dialect: 'mysql',
   pool: {
     max: 5,
     min: 0,
     // acquire: 30000,
     // idle: 10000
-}
+  }
 });
 
 // db.authenticate()
@@ -54,7 +54,7 @@ const db = new Sequelize({
 //   })
 //   .catch((err) => console.log(err));
 
-  
-  (async () => db.sync({force: false}))();
+
+(async () => db.sync({ force: false }))();
 
 module.exports = db;

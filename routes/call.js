@@ -1,5 +1,6 @@
 const app = require("express").Router();
 const passport = require("passport");
+const { Feedback } = require("../models/feedback");
 const ServiceCall = require("../models/serviceCall");
 const User = require("../models/user");
 
@@ -103,11 +104,10 @@ app.get("/:id", passport.authenticate("jwt", { session: false }),
       const call = await ServiceCall.findOne({
         include: [
           { model: User, as: 'user', attributes: ['email', 'name'] },
-          { model: User, as: "engineer", attributes: ["name"] }
+          { model: User, as: "engineer", attributes: ['email', "name", 'id'] }
         ],
         where: { id: id }
       });
-      console.log('Call: ' + call);
       return res.status(200).json({
         success: true,
         call
@@ -119,6 +119,27 @@ app.get("/:id", passport.authenticate("jwt", { session: false }),
       })
     }
   });
+
+app.post("/feedback",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { engineerId, rating, feedback } = req.body.data;
+    console.log("ID: " + engineerId);
+    try {
+      const call = await Feedback.create({ rating, feedback, engineerId });
+      return res.status(200).json({
+        success: true,
+        msg: "Filled feedback"
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({
+        success: false,
+        msg: "Something went wrong! Please try again!"
+      })
+    }
+  }
+)
 
 app.post(
   "/",
@@ -162,7 +183,7 @@ app.put(
     // this route is for updating the service call
     const { engineerEmail, callId, products, remarks, complaint, status } = req.body.data;
     const user = await req.user;
-    if (user.type !== 3) {
+    if (user.type === 2) {
       return res.status(401).json({
         success: false,
         msg: "You are not authorized to do this action",
@@ -176,6 +197,7 @@ app.put(
         products,
         remarks,
         complaint,
+        status
       });
       res.status(200).json({
         msg: "Service call assigned",

@@ -30,7 +30,7 @@ const ServiceCall = db.define("serviceCall", {
     type: Sequelize.INTEGER,
     allowNull: true,
     references: {
-      model: User,
+      model: 'Users',
       key: "id",
     },
   },
